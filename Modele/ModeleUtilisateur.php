@@ -12,7 +12,7 @@
         function Joueur ($nom, $prenom, $meilleurScore, $niveau)
         {
             $this->nom = $nom;
-            $this->prenom = $prenom;$_POST['variable']
+            $this->prenom = $prenom;
             $this->meilleurScore = $meilleurScore;
             $this->niveau = $niveau;
         }
@@ -40,7 +40,7 @@
         }
 
         function setMeilleurScore ($meilleurScore) {
-        	return $this->meilleurScore= $meilleurScore;
+        	$this->meilleurScore= $meilleurScore;
         }
 
         function getNiveau ()
@@ -49,7 +49,7 @@
         }
     
         function setNiveau ($niveau) {
-        	return $this->niveau = $niveau;
+        	$this->niveau = $niveau;
         }
 
     }
@@ -86,6 +86,7 @@
             }
             return $liste_joueur;
         }
+		
         static function getJoueur($i)
         {
             global $connection;

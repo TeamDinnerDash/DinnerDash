@@ -61,35 +61,66 @@
         static function getCapacite ($i)
         {
             global $connection;
-            $req="select * from TABLE where numero=$i;";
+            $req="select capacite from TABLE where numero=$i;";
             $creation= $connection->prepare($req);      
             $creation->execute();
             $cap=$creation->fetch(PDO::FETCH_OBJ);
-            if($cap){
-                $cap = ModeleTable::convertionTableTable($tab);
-                return $cap;
+            if(isset($cap)){
+                return $cap->capacite;
             }
             else{
                 return NULL;
             }
+		}
 
         static function getNbClient ($i)
         {
             global $connection;
-            $req="select * from TABLE where numero=$i;";
+            $req="select nbClient from TABLE where numero=$i;";
             $creation= $connection->prepare($req);      
             $creation->execute();
             $cap=$creation->fetch(PDO::FETCH_OBJ);
-            if($cap){
-                $cap = ModeleTable::convertionTableTable($tab);
-                return $cap;
+            if(isset($cap)){
+                return $cap->nbClient;
             }
             else{
                 return NULL;
             }
+		}
 
+		static function setNbClient ($i, $nbClient)
+        {
+			if(isEmpty($i)){
+				global $connection;
+				$req="update TABLE set nbClient=$nbClient where numero=$i;";
+				$creation= $connection->prepare($req);      
+				$creation->execute();
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		
+		static function viderTable ($i)
+        {
+			if(!isEmpty($i)){
+				global $connection;
+				$req="update TABLE set nbClient=0 where numero=$i;";
+				$creation= $connection->prepare($req);      
+				$creation->execute();
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		
+		static function isEmpty ($i){
+			return getNbClient($i)==0;
+		}
+		
+		
 
 	}
-
-
 ?>

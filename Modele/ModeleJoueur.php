@@ -83,6 +83,7 @@
             }
             return $liste_joueur;
         }
+		
         static function getJoueur($i)
         {
             global $connection;
@@ -126,6 +127,7 @@
             $creation->execute();
             return true;
         }
+		
         static function connection($login, $mdp){
             $req="select * from JOUEUR_USERS where login=\"$login\" AND password=\"$password\";";
             global $connection;
@@ -136,6 +138,7 @@
                 $_SESSION['login']=$login;
             }
         }
+		
         static function deconnection(){
             unset($_SESSION); 
             VuePersonnes::vue_message("Vous ête bien déconnecté(e)");

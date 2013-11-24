@@ -90,7 +90,8 @@
             else{
                 return NULL;
             }
-
+		}
+		
          static function getIngredientsMenu ($i)
         {
             global $connection;
@@ -105,6 +106,7 @@
             else{
                 return NULL;
             }
+		}
 
         static function getTmpPreparation ($t) {
 
@@ -119,7 +121,8 @@
             }
             else{
                 return NULL;
-        }
+			}
+		}
 
         static function getPrix ($p) {
 
@@ -134,7 +137,8 @@
             }
             else{
                 return NULL;
-        }
+			}
+		}
 
 
        

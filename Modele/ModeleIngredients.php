@@ -67,8 +67,9 @@
             }
             else{
                 return NULL;
-        }
-
+			}
+		}
+		
         static function getIngredients_Prix ($i) {
 
             global $connection;
@@ -82,8 +83,8 @@
             }
             else{
                 return NULL;
-        }
-
+			}
+		}
 	}
 	
 

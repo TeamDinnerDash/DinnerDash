@@ -62,8 +62,8 @@
 
 
 
-             static function getNbPersonne($i)
-        {
+        static function getNbPersonne($i)
+		{
             global $connection;
             $req="select * from CLIENT where nbPersonne=$i;";
             $creation= $connection->prepare($req);      
@@ -76,6 +76,7 @@
             else{
                 return NULL;
             }
+		}
 
 		    static function getChoixMenu ($i)
 		    {
@@ -91,6 +92,7 @@
 		        else{
 		            return NULL;
 	            }
+			}
 
             static function getTempsAttente ($i) {
 	            global $connection;
@@ -105,6 +107,6 @@
 	            else{
 	                return NULL;
 	            }
+			}
 	}
-
 ?>

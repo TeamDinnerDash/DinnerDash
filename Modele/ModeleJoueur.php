@@ -1,5 +1,7 @@
 <?php
 
+    require_once("LienModele.php");
+
 	class Joueur {
 
         private $id;

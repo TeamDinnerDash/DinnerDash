@@ -1,34 +1,54 @@
 <?php
 
+    require_once("LienModele.php");
+
 	class Ingredients {
 
-		private $ingr;
-		private $prix_ingr;
+        private $numero;  
+        private $ingr;
+        private $quantite;
+    	private $prix_ingr;
 
-		function Ingredients ($ingr, $prix_ingr) {
-			this->$ingr=$ingr;
-			this->$prix_ingr=$prix_ingr;
+		function Ingredients ($numero, $ingr, $quantite, $prix_ingr) {
+            $this->numero=$numero;
+			$this->ingr=$ingr;
+            $this->quantite=$quantite;
+			$this->prix_ingr=$prix_ingr;
 		} 
 
+        function getNumero () {
+            return $this->numero;
+        }
+
 		function getIngr () {
-			return $this->$ingr;
+			return $this->ingr;
 		}
 
+        function getQuantite () {
+            return $this->quantite;
+        }
+
 		function getPrix_ingr () {
-			return $this->$prix_ingr;
+			return $this->prix_ingr;
 		}
 	}
 
 	class ModeleIngredients {
 
 		static function CreateDataBaseMenu () {
-			$req = "create database if not exists INGREDIENTS(Ingredients varchar(32), ingredients_Prix integer,
-																constraint pk_INGREDIENTS PRIMARY KEY (ingredients));
+			$req = "create database if not exists INGREDIENTS(Numero integer, Ingredients varchar(32), Quantite integer, Prix integer,
+																constraint pk_INGREDIENTS PRIMARY KEY (Numero));
 
-					INSERT INTO INGREDIENTS (ingredients, prix) VALUES ('tomate', '2')
-																			('creme', '5')
-																			('graine', '3')
-																			('legumes', '8');";
+					INSERT INTO INGREDIENTS (Numero, Ingredients, Quantite, Prix) VALUES ('1', 'frites', '5', '1')
+																			             ('2', 'creme', '2', '5')
+																		              	('3', 'graine', '2' '3')
+																		              	('4', 'legumes', '4' '8');
+                                                                                        ('5', 'pain', '5', '2')
+                                                                                        ('6', 'viande', '4', '10')
+                                                                                        ('7', 'pates', '3', '5')
+                                                                                        ('8', 'lardons', '3', '3')
+                                                                                        ('9', 'riz', '2', '3') ";
+                                                                                       
 
 					
 				
@@ -39,10 +59,9 @@
 		}
 
 		static function convertionTableIngredients ($i) {
-     	 	$ingred= new Ingredients($i->ingr, $i->prix_ingr);
+     	 	$ingred= new Ingredients($i->numero, $i->ingr, $i->quantite, $i->prix_ingr);
        		return $ingred;
         }
-
 
         static function getListeIngredients () {
         	global $connection;
@@ -54,10 +73,40 @@
         	}
         }
 
-         static function getIngredients ($i) {
+        static function getNumero ($i) {
+
+            global $connection;
+            $req="select * from INGREDIENTS where Numero=$i;";
+            $creation= $connection->prepare($req);      
+            $creation->execute();
+            $num=$creation->fetch(PDO::FETCH_OBJ);
+            if($num){
+                $num = ModeleMenu::convertionTableIngredients($i);
+                return $num;
+            }
+            else{
+                return NULL;
+        }
+
+        static function getQuantite ($i) {
 
             global $connection;
             $req="select * from INGREDIENTS where ingredients=$i;";
+            $creation= $connection->prepare($req);      
+            $creation->execute();
+            $quant=$creation->fetch(PDO::FETCH_OBJ);
+            if($quant){
+                $quant= ModeleMenu::convertionTableIngredients($i);
+                return $quant;
+            }
+            else{
+                return NULL;
+        }
+
+         static function getIngredients ($i) {
+
+            global $connection;
+            $req="select * from INGREDIENTS where Ingredients=$i;";
             $creation= $connection->prepare($req);      
             $creation->execute();
             $ingr=$creation->fetch(PDO::FETCH_OBJ);
@@ -69,10 +118,10 @@
                 return NULL;
         }
 
-        static function getIngredients_Prix ($i) {
+        static function getPrix ($i) {
 
             global $connection;
-            $req="select * from INGREDIENTS where ingredients_Prix=$i;";
+            $req="select * from INGREDIENTS where Prix=$i;";
             $creation= $connection->prepare($req);      
             $creation->execute();
             $prixr=$creation->fetch(PDO::FETCH_OBJ);

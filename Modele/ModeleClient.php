@@ -1,7 +1,6 @@
 <?php
 
-	require_once("ModeleMenu.php");
-	require_once("ModeleIngredients.php")
+	require_once("LienModele.php");
 
 	class Client {
 
@@ -11,10 +10,10 @@
 		private $tempsAttente;
 
 		function Client ($numClient, $nbPersonne, $choixMenu, $tempsAttente) {
-			$this->numClient = $numClient;
-			$this->nbPersonne = $nbPersonne;
-			$this->choixMenu = $choixMenu;
-			$this->tempsAttente = $tempsAttente;
+			$this->numClient=$numClient;
+			$this->nbPersonne=$nbPersonne;
+			$this->choixMenu=$choixMenu;
+			$this->tempsAttente=$tempsAttente;
 		}
 
 		function getNumClient () {

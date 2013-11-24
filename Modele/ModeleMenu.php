@@ -1,6 +1,6 @@
 <?php
 
-	include ('MenuIngredients.php');
+	require_once("LienModele.php");
 
 	class Menu {
 
@@ -43,12 +43,18 @@
 			$req = "create table if not exists MENU(nom varchar(32), ingredients varchar(32), tmpPreparation integer, 
                                             prix integer, 
                                             constraint pk_Menu PRIMARY KEY (nom),
-                                            constraint pk_Menu FOREIGN KEY (ingredients) REFERENCES INGREDIENTS (Ingredients));
+                                            constraint pk_Menu FOREIGN KEY (ingredients) REFERENCES INGREDIENTS (Numero));
 
 					
 
-					INSERT INTO MENU (nom, ingredients, tmpPreparation, prix) VALUES ('Potage', ['tomate', 'creme'], '20', '10'),
-																					('Couscous', [graine, legumes], '30', '15');";
+					INSERT INTO MENU (nom, ingredients, tmpPreparation, prix) VALUES ('Potage', ['4', '6'], '20', '10'),
+																					('Couscous', ['3', '4', '6'], '10', '15')
+                                                                                    ('Kebab', ['1', '5', '6'], '5', '7')
+                                                                                    ('Pates Carbonara', ['2', '7', '8'], '10', '12')
+                                                                                    ('Risotto', ['2', '4', '9'], '10', '12')   ;";
+
+
+                                                                                 
 
 					
 			global $connection;
@@ -84,14 +90,14 @@
             $creation->execute();
             $menu=$creation->fetch(PDO::FETCH_OBJ);
             if($menu){
-                $menu = ModeleMenu::convertionTableMenu($m);
+                $menu = ModeleMenu::convertionTableMenu($n);
                 return $menu;
             }
             else{
                 return NULL;
             }
 
-         static function getIngredientsMenu ($i)
+         static function getIngredients ($i)
         {
             global $connection;
             $req="select * from MENU where ingredients=$i;";
@@ -99,7 +105,7 @@
             $creation->execute();
             $ingr=$creation->fetch(PDO::FETCH_OBJ);
             if($ingr){
-                $ingr = ModeleMenu::convertionTableMenu($m);
+                $ingr = ModeleMenu::convertionTableMenu($i);
                 return $ingr;
             }
             else{
@@ -114,7 +120,7 @@
             $creation->execute();
             $tmp=$creation->fetch(PDO::FETCH_OBJ);
             if($tmp){
-                $tmp = ModeleMenu::convertionTableMenu($m);
+                $tmp = ModeleMenu::convertionTableMenu($t);
                 return $tmp;
             }
             else{
@@ -129,7 +135,7 @@
             $creation->execute();
             $prix=$creation->fetch(PDO::FETCH_OBJ);
             if($prix){
-                $prix = ModeleMenu::convertionTableMenu($m);
+                $prix = ModeleMenu::convertionTableMenu($p);
                 return $prix;
             }
             else{

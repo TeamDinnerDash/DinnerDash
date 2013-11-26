@@ -14,7 +14,7 @@
         function Joueur ($nom, $prenom, $meilleurScore, $niveau)
         {
             $this->nom = $nom;
-            $this->prenom = $prenom;$_POST['variable']
+            $this->prenom = $prenom;
             $this->meilleurScore = $meilleurScore;
             $this->niveau = $niveau;
         }

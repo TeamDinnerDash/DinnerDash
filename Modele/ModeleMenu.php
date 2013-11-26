@@ -76,7 +76,7 @@
             $creation= $connection->prepare($req);
             $creation->execute();
             while ($menu=$creation->fetch(PDO::FETCH_OBJ)){
-                $liste_menu[] = ModeleMenu::convertionTableMenu($menu);
+                $liste_menu[] = convertionTableMenu($menu);
             }
             return $liste_menu;
         }
@@ -90,7 +90,7 @@
             $creation->execute();
             $menu=$creation->fetch(PDO::FETCH_OBJ);
             if($menu){
-                $menu = ModeleMenu::convertionTableMenu($n);
+                $menu = convertionTableMenu($n);
                 return $menu;
             }
             else{
@@ -105,7 +105,7 @@
             $creation->execute();
             $ingr=$creation->fetch(PDO::FETCH_OBJ);
             if($ingr){
-                $ingr = ModeleMenu::convertionTableMenu($i);
+                $ingr = convertionTableMenu($i);
                 return $ingr;
             }
             else{
@@ -120,7 +120,7 @@
             $creation->execute();
             $tmp=$creation->fetch(PDO::FETCH_OBJ);
             if($tmp){
-                $tmp = ModeleMenu::convertionTableMenu($t);
+                $tmp = convertionTableMenu($t);
                 return $tmp;
             }
             else{
@@ -135,7 +135,7 @@
             $creation->execute();
             $prix=$creation->fetch(PDO::FETCH_OBJ);
             if($prix){
-                $prix = ModeleMenu::convertionTableMenu($p);
+                $prix = convertionTableMenu($p);
                 return $prix;
             }
             else{

@@ -1,22 +1,21 @@
 <?php
 
     require_once("LienModele.php");
-    
-	class Joueur {
+
+	class Utilisateur {
 
         private $id;
         private $nom;
         private $prenom;
-       	private $meilleurScore;
-       	private $niveau
+    
 
 
-        function Joueur ($nom, $prenom, $meilleurScore, $niveau)
+        function Utilisateur ($id, $nom, $prenom)
         {
+            $this->id= $id;
             $this->nom = $nom;
-            $this->prenom = $prenom;$_POST['variable']
-            $this->meilleurScore = $meilleurScore;
-            $this->niveau = $niveau;
+            $this->prenom = $prenom;
+           
         }
 
     
@@ -32,38 +31,30 @@
         {
             return $this->nom;
         }
+
+        function setNom () {
+            $this->id=$id;
+        }
+
         function getPrenom ()
         {
             return $this->prenom;
         }
-        function getMeilleurScore ()
-        {
-            return $this->meilleurScore;
-        }
-
-        function setMeilleurScore ($meilleurScore) {
-        	return $this->meilleurScore= $meilleurScore;
-        }
-
-        function getNiveau ()
-        {
-            return $this->niveau;
-        }
-    
-        function setNiveau ($niveau) {
-        	return $this->niveau = $niveau;
+  
+        function setPrenom () {
+            $this->prenom=$prenom;
         }
 
     }
 
-    class ModeleJoueur {
+    class ModeleUtilisateur {
 
-    	static function createDataBaseJoueur(){
-            $req="create table if not exists JOUEUR(id serial, nom varchar(32), prenom varchar(32), 
-                                            meilleurScore integer, niveau integer,
-                                            constraint pk_joueur primary key (nom, prenom));
+    	static function createDataBaseUtilisateur(){
+            $req="create table if not exists UTILISATEUR (id serial, nom varchar(32), prenom varchar(32), 
                                             
-                    create table if not exists JOUEUR_USERS(id serial, login varchar(32) UNIQUE, mdp varchar(32), creation boolean,
+                                            constraint pk_joueur primary key (id));
+                                            
+                    create table if not exists Utilisateurs_USERS(id serial, login varchar(32) UNIQUE, mdp varchar(32), creation boolean,
                     edition boolean, lecture boolean, constraint pk_users primary key (id));";
                                             
             global $connection;
@@ -71,32 +62,32 @@
             $creation->execute();
         }
         
-        static function convertionTableJoueur($pers) {
-            $joueur=new Joueur($pers->nom, $pers->prenom, $pers->meilleurScore, $pers->niveau);
-            $joueur->setId($pers->id);
-            return $joueur;
+        static function convertionTableUtilisateur($pers) {
+            $util=new Utilisateur($pers->id, $pers->nom, $pers->prenom);
+            $util->setId($pers->id);
+            return $util;
         }
 
-        static function getListeJoueur ()
+        static function getListeUtilisateur ()
         {
             global $connection;
-            $req="select * from JOUEUR;";
+            $req="select * from UTILISATEUR;";
             $creation= $connection->prepare($req);
             $creation->execute();
-            while ($joueur=$creation->fetch(PDO::FETCH_OBJ)){
-                $liste_joueur[] = ModelePersonnes::convertionTablePersonne($joueur);
+            while ($util=$creation->fetch(PDO::FETCH_OBJ)){
+                $liste_utilisateur[] = convertionTableUtilisateur($util);
             }
-            return $liste_joueur;
+            return $liste_utilisateur;
         }
-        static function getJoueur($i)
+        static function getUtilisateur($i)
         {
             global $connection;
-            $req="select * from JOUEUR where id=$i;";
+            $req="select * from UTILISATEUR where id=$i;";
             $creation= $connection->prepare($req);      
             $creation->execute();
             $pers=$creation->fetch(PDO::FETCH_OBJ);
             if($pers){
-                $pers = ModelePersonnes::convertionTablePersonne($pers);
+                $pers = convertionTableUtilisateur($util);
                 return $pers;
             }
             else{
@@ -105,16 +96,16 @@
             
         }
 
-        static function ajoutePersonne ($p)
+        static function ajouteUtilisateur ($p)
         {
-            $req="insert into JOUEUR values (default,\"".$p->getNom()."\", \"".$p->getPrenom()."\", \"".$p->meilleurScore()."\", '".$p->getNiveau."');";
+            $req="insert into UTILISATEUR values (default,\"".$p->getNom()."\", \"".$p->getPrenom()."\");";
             global $connection;
             $creation= $connection->prepare($req);  
             $creation->execute();
             return true;
         }
 
-        static function supprimePersonne ($index)
+        static function supprimeUtilisateur ($index)
         {
             $req="delete from JOUEUR where id= ".$index.";";
             global $connection;
@@ -123,7 +114,7 @@
             return true;
         }
 
-        static function modifiePersonne ($index, $p)
+        static function modifieUtilisateur ($index, $p)
         {
             $req="update personnes set nom=\"".$p->getNom()."\", prenom=\"".$p->getPrenom()."\", meilleurScore=\"".$p->getMeilleurScore()."\", niveau='".$p->getNiveau()."' where id=".$index.";";
             global $connection;

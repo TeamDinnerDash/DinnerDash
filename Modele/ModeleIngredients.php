@@ -35,6 +35,8 @@
 
 	class ModeleIngredients {
 
+        
+
 		static function CreateDataBaseMenu () {
 			$req = "create database if not exists INGREDIENTS(Numero integer, Ingredients varchar(32), Quantite integer, Prix integer,
 																constraint pk_INGREDIENTS PRIMARY KEY (Numero));
@@ -48,7 +50,7 @@
                                                                                         ('7', 'pates', '3', '5')
                                                                                         ('8', 'lardons', '3', '3')
                                                                                         ('9', 'riz', '2', '3') 
-                                                                                         ('10', 'epices', '3', '4');";
+                                                                                        ('10', 'epices', '3', '4');";
                                                                                        
 
 					
@@ -58,6 +60,22 @@
 	            $creation->execute();	
 	            
 		}
+
+
+
+
+        static function acheterIngredients ($a, $index) {       
+
+            $req="alter table INGREDIENTS set Quantite='".$a->getQuantiteSouhaite()"' where Numero=$index,
+                                                Prix='"$a->achat()"' where Numero=$index;";
+
+            global $connection;
+            $creation= $connection->prepare($req);  
+            $creation->execute();
+            return true;
+
+        }
+
 
 		static function convertionTableIngredients ($i) {
      	 	$ingred= new Ingredients($i->numero, $i->ingr, $i->quantite, $i->prix_ingr);
@@ -70,7 +88,7 @@
         	$creation= $connection->prepare($req);
         	$creation->execute();
         	while ($ingred=$creation->fetch(PDO::FETCH_OBJ)){
-        		$liste_ingredients[] = ModeleMenu::convertionTableIngredients($ingred);
+        		$liste_ingredients[] = convertionTableIngredients($ingred);
         	}
         }
 
@@ -82,11 +100,12 @@
             $creation->execute();
             $num=$creation->fetch(PDO::FETCH_OBJ);
             if($num){
-                $num = ModeleMenu::convertionTableIngredients($i);
+                $num = convertionTableIngredients($i);
                 return $num;
             }
             else{
                 return NULL;
+            }
         }
 
         static function getQuantite ($i) {
@@ -97,14 +116,15 @@
             $creation->execute();
             $quant=$creation->fetch(PDO::FETCH_OBJ);
             if($quant){
-                $quant= ModeleMenu::convertionTableIngredients($i);
+                $quant= convertionTableIngredients($i);
                 return $quant;
             }
             else{
                 return NULL;
+            }
         }
 
-         static function getIngredients ($i) {
+        static function getIngredients ($i) {
 
             global $connection;
             $req="select * from INGREDIENTS where Ingredients=$i;";
@@ -112,11 +132,12 @@
             $creation->execute();
             $ingr=$creation->fetch(PDO::FETCH_OBJ);
             if($ingr){
-                $ingr = ModeleMenu::convertionTableIngredients($i);
+                $ingr = convertionTableIngredients($i);
                 return $ingr;
             }
             else{
                 return NULL;
+            }    
         }
 
         static function getPrix ($i) {
@@ -127,11 +148,12 @@
             $creation->execute();
             $prixr=$creation->fetch(PDO::FETCH_OBJ);
             if($prix){
-                $prix = ModeleMenu::convertionTableIngredients($i);
+                $prix = convertionTableIngredients($i);
                 return $prix;
             }
             else{
                 return NULL;
+            }
         }
 
 	}
